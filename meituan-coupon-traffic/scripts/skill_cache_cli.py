@@ -1042,7 +1042,7 @@ def main():
     shared_subparsers.add_parser("list", help="列出公域文件")
 
     # auth 命令组（专用于认证 Token 管理）
-    auth_parser = subparsers.add_parser("auth", help="认证 Token 管理（公埾）")
+    auth_parser = subparsers.add_parser("auth", help="认证 Token 管理（公域）")
     auth_subparsers = auth_parser.add_subparsers(dest="auth_cmd")
 
     # auth get

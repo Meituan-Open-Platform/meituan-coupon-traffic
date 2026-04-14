@@ -42,7 +42,7 @@ if sys.platform == "win32":
 
 # ── 常量 ──────────────────────────────────────────────────────────────
 AUTH_KEY       = "meituan-c-user-auth"
-LOCAL_VERSION  = "1.0.29"  # 本文件的版本号，与 SKILL.md 中 version 字段保持一致
+LOCAL_VERSION  = "1.0.34"  # 本文件的版本号，与 SKILL.md 中 version 字段保持一致
 
 # 用户协议接受状态字段名
 TERMS_ACCEPTED_KEY = "terms_accepted"
@@ -723,12 +723,14 @@ def cmd_verify(phone: str, code: str):
             device_token = uuid_val
             is_new_device = not bool(existing.get("device_token"))
 
-            token_data = {
+            # 合并更新：保留已有字段（terms_accepted, cron_* 等），只更新认证相关字段
+            token_data = get_token_data()  # 读取完整的现有数据
+            token_data.update({
                 "user_token": user_token,
                 "device_token": device_token,
                 "phone_masked": phone_masked,
                 "authed_at": int(time.time())
-            }
+            })
             save_token_data(token_data)
 
             result = {
